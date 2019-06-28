@@ -5,6 +5,9 @@ import queue
 import requests
 import socket
 import threading
+import urllib3
+
+
 
 class ProxyType:
     socks5 = 0
@@ -57,6 +60,8 @@ def worker(_):
 def process(i):
     global proxiesQueue
     
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
     pool = ThreadPool(threadCount)
     pool.map(worker,range(threadCount))
     pool.close()
