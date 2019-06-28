@@ -16,7 +16,7 @@ class ProxyType:
     invalid = 3
 
 def getProxyType(proxy,timeout=10):
-    URL = "http://ip-api.com/json"
+    URL = "https://www.cloudflare.com"
     addrs = [
             ("socks5://{}".format(proxy), ProxyType.socks5 ),
             ("socks4://{}".format(proxy), ProxyType.socks4),
