@@ -30,12 +30,17 @@ class ProxyChecker:
 
     def writeToFile(self,interval):
         while self.processesRunning:
+            t1 = time.time()
+
             time.sleep(interval)
             writeBuffer = ""
+            counter = 0
             while True:
                 try:
-                    proxy = self.workingProxies.get_nowait()
+                    with lock:
+                        proxy = self.workingProxies.get_nowait()
                     writeBuffer += proxy + "\n"
+                    counter += 1
                 except queue.Empty:
                     break
             if writeBuffer == "":
@@ -43,6 +48,12 @@ class ProxyChecker:
             f = open(self.outFileName,"a+")
             f.write(writeBuffer)
             f.close()
+            
+            t2 = time.time()
+            print("Got {} proxies in {} seconds".format(counter,t2-t1))
+
+
+
             
         
 
