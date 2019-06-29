@@ -26,6 +26,8 @@ def getProxyType(proxy,timeout=10):
                 }
         try:
             resp = requests.head(URL,proxies=temp,timeout=timeout)
+            with lock:
+                workingProxies.put(addr)
             print(addr)
         except requests.exceptions.RequestException:
             pass
@@ -35,11 +37,12 @@ def getProxyType(proxy,timeout=10):
 
 
 
-def initProcess(proxiesQueue_,threadCount_,lock_):
-    global proxiesQueue,threadCount,lock,tLock
+def initProcess(proxiesQueue_,threadCount_,lock_,workingProxies_):
+    global proxiesQueue,threadCount,lock,tLock,workingProxies
     proxiesQueue = proxiesQueue_
     threadCount = threadCount_
     lock = lock_
+    workingProxies = workingProxies_
     tLock = threading.Lock()
     return 
 
