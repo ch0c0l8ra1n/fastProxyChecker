@@ -19,7 +19,6 @@ def getProxyType(proxy,timeout=10):
             ("https://{}".format(proxy), ProxyType.https)
             ]
     for addr,pType in addrs:
-        #print("\033[F{}/{}/{}".format(working,counter,totalProxies))
         temp = {
                 "http" : addr,
                 "https": addr
@@ -28,7 +27,6 @@ def getProxyType(proxy,timeout=10):
             resp = requests.head(URL,proxies=temp,timeout=timeout)
             with lock:
                 workingProxies.put(addr)
-            print(addr)
         except requests.exceptions.RequestException:
             pass
         except socket.error:
