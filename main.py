@@ -59,7 +59,7 @@ def main():
     fName = sys.argv[1]
     proxiesQueue = Queue()
     processCount =  cpu_count()
-    threadCount = sys.argv[2]
+    threadCount = int(sys.argv[2])
     workingProxies = Queue()
     lock=Lock()
 
