@@ -19,7 +19,7 @@ class ProxyChecker:
         lock=Lock()
         
         self.processesRunning = True
-        thread = threading.Thread(target=self.writeToFile,args=[10] )
+        thread = threading.Thread(target=self.writeToFile,args=[10,lock] )
         thread.start()
         pool = Pool(processCount,initProcess,
                 [self.proxiesQueue,threadCount,lock,self.workingProxies])
@@ -28,7 +28,7 @@ class ProxyChecker:
         pool.join()
         self.processesRunning = False
 
-    def writeToFile(self,interval):
+    def writeToFile(self,lock,interval):
         while self.processesRunning:
             t1 = time.time()
 
