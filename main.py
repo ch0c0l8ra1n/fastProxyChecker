@@ -19,7 +19,7 @@ class ProxyChecker:
         lock=Lock()
         
         self.processesRunning = True
-        thread = threading.Thread(target=self.writeToFile,args=[10,lock] )
+        thread = threading.Thread(target=self.writeToFile,args=[lock,10] )
         thread.start()
         pool = Pool(processCount,initProcess,
                 [self.proxiesQueue,threadCount,lock,self.workingProxies])
