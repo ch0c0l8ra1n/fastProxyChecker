@@ -31,6 +31,8 @@ def getProxyType(proxy,timeout=10):
             pass
         except socket.error:
             pass
+        except OverflowError:
+            time.sleep(10)
     return addr,ProxyType.invalid
 
 
