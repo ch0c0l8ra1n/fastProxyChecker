@@ -43,8 +43,6 @@ class ProxyChecker:
                     counter += 1
                 except queue.Empty:
                     break
-            if writeBuffer == "":
-                continue
             f = open(self.outFileName,"a+")
             f.write(writeBuffer)
             f.close()
