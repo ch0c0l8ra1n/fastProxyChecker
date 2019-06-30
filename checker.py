@@ -4,6 +4,7 @@ import requests
 import socket
 import threading
 import urllib3
+import requestsSocketsReuse
 
 class ProxyType:
     socks5 = 0
@@ -24,7 +25,7 @@ def getProxyType(proxy,timeout=10):
                 "https": addr
                 }
         try:
-            resp = requests.head(URL,proxies=temp,timeout=timeout)
+            resp = requestsSocketsReuse.head(URL,proxies=temp,timeout=timeout)
             with lock:
                 workingProxies.put(addr)
         except requests.exceptions.RequestException:

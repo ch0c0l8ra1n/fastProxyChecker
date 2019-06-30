@@ -1,4 +1,5 @@
 import requests
+import socket
 
 class HTTPAdapterWithSocketOptions(requests.adapters.HTTPAdapter):
     def __init__(self, *args, **kwargs):
@@ -27,19 +28,19 @@ def get(*args,**kwargs):
     return resp
 
 def head(*args,**kwargs):
-    s = headSocket()
+    s = getSocket()
     resp = s.head(*args,**kwargs)
     s.close()
     return resp
 
 def post(*args,**kwargs):
-    s = postSocket()
+    s = getSocket()
     resp = s.post(*args,**kwargs)
     s.close()
     return resp
 
 def options(*args,**kwargs):
-    s = optionsSocket()
+    s = getSocket()
     resp = s.options(*args,**kwargs)
     s.close()
     return resp
