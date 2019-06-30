@@ -15,14 +15,15 @@ class ProxyChecker:
         self.outFileName = "output.txt"
         open(self.outFileName,"w+").close()
 
-    def check(self,processCount,threadCount):
+    def check(self,processCount,threadCount,timeout):
         lock=Lock()
         
         self.processesRunning = True
         thread = threading.Thread(target=self.writeToFile,args=[lock,10] )
         thread.start()
         pool = Pool(processCount,initProcess,
-                [self.proxiesQueue,threadCount,lock,self.workingProxies])
+                [self.proxiesQueue,threadCount,
+                    lock,self.workingProxies,timeout])
         pool.map(process, range(processCount))
         pool.close()
         pool.join()
@@ -56,10 +57,15 @@ class ProxyChecker:
         
 
 def main():
-    fName = sys.argv[1]
+    try:
+        fName = sys.argv[1]
+        threadCount = int(sys.argv[2])
+        timeout = int(sys.argv[3])
+    except:
+        print("Usage: python3 main.py filename threadCount timeout")
+        return
     proxiesQueue = Queue()
     processCount =  cpu_count()
-    threadCount = int(sys.argv[2])
     workingProxies = Queue()
     lock=Lock()
 
@@ -69,7 +75,7 @@ def main():
             proxiesQueue.put(line)
     
     checker = ProxyChecker(proxiesQueue)
-    checker.check(processCount,threadCount)
+    checker.check(processCount,threadCount,timeout)
 
 
 

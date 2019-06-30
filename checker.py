@@ -38,13 +38,14 @@ def getProxyType(proxy,timeout=10):
 
 
 
-def initProcess(proxiesQueue_,threadCount_,lock_,workingProxies_):
-    global proxiesQueue,threadCount,lock,tLock,workingProxies
+def initProcess(proxiesQueue_,threadCount_,lock_,workingProxies_,timeout_):
+    global proxiesQueue,threadCount,lock,tLock,workingProxies,timeout
     proxiesQueue = proxiesQueue_
     threadCount = threadCount_
     lock = lock_
     workingProxies = workingProxies_
     tLock = threading.Lock()
+    timeout = timeout_
     return 
 
 def worker(_):
@@ -54,7 +55,7 @@ def worker(_):
             if proxiesQueue.empty():
                 return
             proxy = proxiesQueue.get()
-        getProxyType(proxy)
+        getProxyType(proxy,timeout=timeout)
 
 
 def process(i):
