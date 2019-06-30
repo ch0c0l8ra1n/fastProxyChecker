@@ -5,6 +5,7 @@ import socket
 import threading
 import urllib3
 import requestsSocketsReuse
+import time
 
 class ProxyType:
     socks5 = 0
